@@ -399,7 +399,7 @@
 	</item>
 	<item id="236" article="a" name="strong health potion">
 		<attribute key="primarytype" value="liquids" />
-		<attribute key="description" value="This potion can only be consumed by knights, monks and paladins of level 50 or higher."/>
+		<attribute key="description" value="This potion can only be consumed by knights, monks and paladins of level 50 or higher." />
 		<attribute key="weight" value="290" />
 	</item>
 	<item id="237" article="a" name="strong mana potion">
@@ -410,7 +410,7 @@
 	<item id="238" article="a" name="great mana potion">
 		<attribute key="primarytype" value="liquids" />
 		<attribute key="weight" value="310" />
-		<attribute key="description" value="This potion can only be consumed by monks, paladins, sorcerers and druids of level 80 or higher."/>
+		<attribute key="description" value="This potion can only be consumed by monks, paladins, sorcerers and druids of level 80 or higher." />
 	</item>
 	<item id="239" article="a" name="great health potion">
 		<attribute key="primarytype" value="liquids" />
@@ -6921,7 +6921,7 @@
 		<attribute key="weight" value="80" />
 		<attribute key="script" value="moveevent">
 			<attribute key="slot" value="ring" />
-			<attribute key="vocation" value="Knight;true, Paladin;true, Elite Knight, Royal Paladin" />
+			<attribute key="vocation" value="Knight;true, Paladin;true, Elite Knight, Royal Paladin, Monk;true, Exalted Monk" />
 		</attribute>
 	</item>
 	<item id="3052" article="a" name="life ring">
@@ -7338,7 +7338,7 @@
 		<attribute key="weight" value="80" />
 		<attribute key="script" value="moveevent">
 			<attribute key="slot" value="ring" />
-			<attribute key="vocation" value="Knight;true, Paladin;true, Elite Knight, Royal Paladin" />
+			<attribute key="vocation" value="Knight;true, Paladin;true, Monk;true, Elite Knight, Royal Paladin, Exalted Monk" />
 		</attribute>
 	</item>
 	<item id="3089" article="a" name="life ring">
@@ -76722,16 +76722,16 @@ Granted by TibiaGoals.com" />
 		</attribute>
 	</item>
 	<item id="44638" article="a" name="knight pedestal">
-		<attribute key="primarytype" value="artificial tiles"/>
+		<attribute key="primarytype" value="artificial tiles" />
 	</item>
 	<item id="44639" article="a" name="paladin pedestal">
-		<attribute key="primarytype" value="artificial tiles"/>
+		<attribute key="primarytype" value="artificial tiles" />
 	</item>
 	<item id="44640" article="a" name="sorcerer pedestal">
-		<attribute key="primarytype" value="artificial tiles"/>
+		<attribute key="primarytype" value="artificial tiles" />
 	</item>
 	<item id="44641" article="a" name="druid pedestal">
-		<attribute key="primarytype" value="artificial tiles"/>
+		<attribute key="primarytype" value="artificial tiles" />
 	</item>
 	<item id="44642" name="stoic iks culet">
 		<attribute key="primarytype" value="legs" />
@@ -77235,10 +77235,10 @@ Granted by TibiaGoals.com" />
 		<attribute key="weight" value="30" />
 	</item>
 	<item id="46625" article="a" name="lesser fragment">
-		<attribute key="weight" value="5"/>
+		<attribute key="weight" value="5" />
 	</item>
 	<item id="46626" article="a" name="greater fragment">
-		<attribute key="weight" value="500"/>
+		<attribute key="weight" value="500" />
 	</item>
 	<item id="46627" article="a" name="crusher">
 		<attribute key="loottype" value="tools" />
@@ -82945,8 +82945,8 @@ Granted by TibiaGoals.com" />
 		<attribute key="floorchange" value="down" />
 	</item>
 	<item id="50096" article="a" name="ticket forge">
-		<attribute key="duration" value="20"/>
-		<attribute key="containersize" value="20"/>
+		<attribute key="duration" value="20" />
+		<attribute key="containersize" value="20" />
 	</item>
 	<item id="50101" article="a" name="bloodstained scythe">
 		<attribute key="primarytype" value="creature products" />
