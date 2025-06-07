@@ -83021,7 +83021,7 @@ Granted by TibiaGoals.com" />
 			<attribute key="avatar of balance" value="cooldown">
 				<attribute key="value" value="900000" />
 			</attribute>
-			<attribute key="chained penance" value="chain target">
+			<attribute key="chained penance" value="critical extra damage">
 				<attribute key="value" value="8" />
 			</attribute>
 		</attribute>
