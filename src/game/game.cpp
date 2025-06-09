@@ -3267,6 +3267,9 @@ ObjectCategory_t Game::getObjectCategory(const ItemType &it) {
 	ObjectCategory_t category = OBJECTCATEGORY_DEFAULT;
 	if (it.weaponType != WEAPON_NONE) {
 		switch (it.weaponType) {
+			case WEAPON_FIST:
+				category = OBJECTCATEGORY_FISTS;
+				break;
 			case WEAPON_SWORD:
 				category = OBJECTCATEGORY_SWORDS;
 				break;

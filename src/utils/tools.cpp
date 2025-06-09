@@ -1752,6 +1752,8 @@ std::string getObjectCategoryName(ObjectCategory_t category) {
 			return "Gold";
 		case OBJECTCATEGORY_QUIVERS:
 			return "Quiver";
+		case OBJECTCATEGORY_FISTS:
+			return "Weapons: Fists";
 		case OBJECTCATEGORY_DEFAULT:
 			return "Unassigned Loot";
 		default:
@@ -1787,6 +1789,7 @@ bool isValidObjectCategory(ObjectCategory_t category) {
 		OBJECTCATEGORY_TIBIACOINS,
 		OBJECTCATEGORY_CREATUREPRODUCTS,
 		OBJECTCATEGORY_QUIVERS,
+		OBJECTCATEGORY_FISTS,
 		OBJECTCATEGORY_GOLD,
 		OBJECTCATEGORY_DEFAULT,
 	};
