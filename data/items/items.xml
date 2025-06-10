@@ -20788,7 +20788,7 @@
 	<item fromid="7630" toid="7641" name="earth" />
 	<item id="7642" article="a" name="great spirit potion">
 		<attribute key="primarytype" value="liquids" />
-		<attribute key="description" value="This potion can only be consumed by paladins of level 80 or higher" />
+		<attribute key="description" value="This potion can only be consumed by monks and paladins of level 80 or higher" />
 		<attribute key="weight" value="310" />
 	</item>
 	<item id="7643" article="an" name="ultimate health potion">
@@ -45898,7 +45898,7 @@ hands of its owner. Granted by TibiaRoyal.com" />
 	</item>
 	<item id="23374" article="an" name="ultimate spirit potion">
 		<attribute key="primarytype" value="liquids" />
-		<attribute key="description" value="This potion can only be consumed by paladins of level 130 or higher" />
+		<attribute key="description" value="This potion can only be consumed by monks and paladins of level 130 or higher" />
 		<attribute key="weight" value="310" />
 	</item>
 	<item id="23375" article="a" name="supreme health potion">
