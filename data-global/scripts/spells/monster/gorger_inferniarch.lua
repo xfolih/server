@@ -3,10 +3,10 @@ combat:setParameter(COMBAT_PARAM_TYPE, COMBAT_PHYSICALDAMAGE)
 combat:setParameter(COMBAT_PARAM_EFFECT, CONST_ME_WHITE_ENERGY_SPARK)
 
 local area = {
-    {1, 1, 1},
-    {1, 1, 1},
-    {1, 1, 1},
-    {0, 3, 0}
+	{ 1, 1, 1 },
+	{ 1, 1, 1 },
+	{ 1, 1, 1 },
+	{ 0, 3, 0 },
 }
 
 combat:setArea(createCombatArea(area))
@@ -14,7 +14,7 @@ combat:setArea(createCombatArea(area))
 local spell = Spell("instant")
 
 function spell.onCastSpell(creature, var)
-    return combat:execute(creature, var)
+	return combat:execute(creature, var)
 end
 
 spell:name("gorgewave")

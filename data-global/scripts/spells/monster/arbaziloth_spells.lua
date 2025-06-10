@@ -7,19 +7,19 @@ combatSmall:setParameter(COMBAT_PARAM_TYPE, COMBAT_ENERGYDAMAGE)
 combatSmall:setParameter(COMBAT_PARAM_EFFECT, CONST_ME_WHITE_ENERGY_SPARK)
 
 local ENERGIT_PATTERN = {
-    {0, 1, 0, 1, 0},
-    {1, 0, 0, 0, 1},
-    {1, 0, 0, 0, 1},
-    {0, 1, 3, 1, 0},
+	{ 0, 1, 0, 1, 0 },
+	{ 1, 0, 0, 0, 1 },
+	{ 1, 0, 0, 0, 1 },
+	{ 0, 1, 3, 1, 0 },
 }
 
 local ENERGIT_PATTERN2 = {
-  {1, 0, 0, 0, 0, 0, 1},
-  {0, 1, 0, 0, 0, 1, 0},
-  {0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 0, 0, 0, 0, 0},
-  {0, 0, 1, 0, 1, 0, 0},
-  {0, 0, 0, 3, 0, 0, 0},
+	{ 1, 0, 0, 0, 0, 0, 1 },
+	{ 0, 1, 0, 0, 0, 1, 0 },
+	{ 0, 0, 0, 0, 0, 0, 0 },
+	{ 0, 0, 0, 0, 0, 0, 0 },
+	{ 0, 0, 1, 0, 1, 0, 0 },
+	{ 0, 0, 0, 3, 0, 0, 0 },
 }
 
 combatLarge:setArea(createCombatArea(ENERGIT_PATTERN))
@@ -28,10 +28,10 @@ combatSmall:setArea(createCombatArea(ENERGIT_PATTERN2))
 local spell = Spell("instant")
 
 function spell.onCastSpell(creature, var)
-    -- Executa os dois padrões simultaneamente
-    combatSmall:execute(creature, var)
-    combatLarge:execute(creature, var)
-    return true
+	-- Executa os dois padrões simultaneamente
+	combatSmall:execute(creature, var)
+	combatLarge:execute(creature, var)
+	return true
 end
 
 spell:name("arbazilothspells")
