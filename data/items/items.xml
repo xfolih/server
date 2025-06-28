@@ -399,7 +399,7 @@
 	</item>
 	<item id="236" article="a" name="strong health potion">
 		<attribute key="primarytype" value="liquids" />
-		<attribute key="description" value="This potion can only be consumed by knights, monks and paladins of level 50 or higher." />
+		<attribute key="description" value="This potion can only be consumed by knights, monks and paladins of level 50 or higher."/>
 		<attribute key="weight" value="290" />
 	</item>
 	<item id="237" article="a" name="strong mana potion">
@@ -410,7 +410,7 @@
 	<item id="238" article="a" name="great mana potion">
 		<attribute key="primarytype" value="liquids" />
 		<attribute key="weight" value="310" />
-		<attribute key="description" value="This potion can only be consumed by monks, paladins, sorcerers and druids of level 80 or higher." />
+		<attribute key="description" value="This potion can only be consumed by monks, paladins, sorcerers and druids of level 80 or higher."/>
 	</item>
 	<item id="239" article="a" name="great health potion">
 		<attribute key="primarytype" value="liquids" />
@@ -6921,7 +6921,7 @@
 		<attribute key="weight" value="80" />
 		<attribute key="script" value="moveevent">
 			<attribute key="slot" value="ring" />
-			<attribute key="vocation" value="Knight;true, Paladin;true, Elite Knight, Royal Paladin, Monk;true, Exalted Monk" />
+			<attribute key="vocation" value="Knight;true, Paladin;true, Monk;true, Elite Knight, Royal Paladin, Exalted Monk" />
 		</attribute>
 	</item>
 	<item id="3052" article="a" name="life ring">
@@ -7318,7 +7318,7 @@
 	<item id="3087" article="a" name="power ring">
 		<attribute key="primarytype" value="rings" />
 		<attribute key="showduration" value="1" />
-		<attribute key="skillfist" value="6" />
+		<attribute key="skillfist" value="4" />
 		<attribute key="duration" value="1800" />
 		<attribute key="transformdeequipto" value="3050" />
 		<attribute key="decayTo" value="0" />
@@ -7338,7 +7338,7 @@
 		<attribute key="weight" value="80" />
 		<attribute key="script" value="moveevent">
 			<attribute key="slot" value="ring" />
-			<attribute key="vocation" value="Knight;true, Paladin;true, Monk;true, Elite Knight, Royal Paladin, Exalted Monk" />
+			<attribute key="vocation" value="Knight;true, Paladin;true, Elite Knight, Royal Paladin" />
 		</attribute>
 	</item>
 	<item id="3089" article="a" name="life ring">
@@ -8160,11 +8160,11 @@
 		</attribute>
 	</item>
 	<item id="3246" name="boots of waterwalking">
-		<attribute key="description" value="(This item has 5 charges left)" />
-		<attribute key="weight" value="770" />
-		<attribute key="script" value="moveevent">
-			<attribute key="slot" value="feet" />
-		</attribute>
+		<attribute key="description" value="(Donation boots)"/>
+		<attribute key="showAttributes" value="1"/>
+		<attribute key="speed" value="50"/>
+		<attribute key="weight" value="750"/>
+		<attribute key="imbuementslot" value="1"/>
 	</item>
 	<item id="3247" article="a" name="djinn's lamp">
 		<attribute key="description" value="(This item has 2 charges left)" />
@@ -8596,14 +8596,16 @@
 		</attribute>
 	</item>
 	<item id="3289" article="a" name="staff">
-		<attribute key="primarytype" value="club weapons" />
-		<attribute key="weaponType" value="club" />
+		<attribute key="primarytype" value="fist weapons" />
+		<attribute key="weaponType" value="fist" />
 		<attribute key="slotType" value="two-handed" />
-		<attribute key="attack" value="10" />
-		<attribute key="defense" value="25" />
+		<attribute key="attack" value="23" />
+		<attribute key="defense" value="14" />
 		<attribute key="weight" value="3800" />
 		<attribute key="script" value="moveevent;weapon">
-			<attribute key="weaponType" value="club" />
+			<attribute key="level" value="15" />		
+			<attribute key="weaponType" value="fist" />
+			<attribute key="vocation" value="Monk;true, Exalted Monk" />
 		</attribute>
 	</item>
 	<item id="3290" article="a" name="silver dagger">
@@ -11104,7 +11106,7 @@
 		<attribute key="weight" value="900" />
 		<attribute key="imbuementslot" value="1">
 			<attribute key="increase speed" value="3" />
-			<attribute key="paralysis removal" value="3" />
+			<attribute key="paralysis removal" value="3" />			
 		</attribute>
 		<attribute key="script" value="moveevent">
 			<attribute key="slot" value="feet" />
@@ -11127,7 +11129,7 @@
 		<attribute key="weight" value="2900" />
 		<attribute key="imbuementslot" value="1">
 			<attribute key="increase speed" value="3" />
-			<attribute key="paralysis removal" value="3" />
+			<attribute key="paralysis removal" value="3" />			
 		</attribute>
 		<attribute key="script" value="moveevent">
 			<attribute key="slot" value="feet" />
@@ -11139,7 +11141,7 @@
 		<attribute key="weight" value="3100" />
 		<attribute key="imbuementslot" value="1">
 			<attribute key="increase speed" value="3" />
-			<attribute key="paralysis removal" value="3" />
+			<attribute key="paralysis removal" value="3" />			
 		</attribute>
 		<attribute key="script" value="moveevent">
 			<attribute key="slot" value="feet" />
@@ -11151,7 +11153,7 @@
 		<attribute key="weight" value="900" />
 		<attribute key="imbuementslot" value="1">
 			<attribute key="increase speed" value="3" />
-			<attribute key="paralysis removal" value="3" />
+			<attribute key="paralysis removal" value="3" />			
 		</attribute>
 		<attribute key="script" value="moveevent">
 			<attribute key="slot" value="feet" />
@@ -26503,7 +26505,7 @@
 		<attribute key="weight" value="1850" />
 		<attribute key="imbuementslot" value="1">
 			<attribute key="increase speed" value="3" />
-			<attribute key="paralysis removal" value="3" />
+			<attribute key="paralysis removal" value="3" />			
 		</attribute>
 		<attribute key="script" value="moveevent">
 			<attribute key="level" value="70" />
@@ -26519,7 +26521,7 @@
 		<attribute key="weight" value="1850" />
 		<attribute key="imbuementslot" value="1">
 			<attribute key="increase speed" value="3" />
-			<attribute key="paralysis removal" value="3" />
+			<attribute key="paralysis removal" value="3" />			
 		</attribute>
 		<attribute key="script" value="moveevent">
 			<attribute key="level" value="70" />
@@ -39536,7 +39538,7 @@
 		<attribute key="weight" value="1150" />
 		<attribute key="imbuementslot" value="1">
 			<attribute key="increase speed" value="3" />
-			<attribute key="paralysis removal" value="3" />
+			<attribute key="paralysis removal" value="3" />			
 		</attribute>
 		<attribute key="script" value="moveevent">
 			<attribute key="slot" value="feet" />
@@ -45106,7 +45108,7 @@ Awarded by TibiaMisterios.com.br" />
 		<attribute key="primarytype" value="valuables" />
 		<attribute key="weight" value="20" />
 	</item>
-	<item id="22723" article="a" name="platinum token" plural="platinum tokens">
+	<item id="22723" article="a" name="galana token" plural="galana tokens">
 		<attribute key="primarytype" value="valuables" />
 		<attribute key="weight" value="20" />
 	</item>
@@ -47441,14 +47443,16 @@ hands of its owner. Granted by TibiaRoyal.com" />
 		<attribute key="description" value="It was created by Tibia's finest bakers for the celebration of 20 years of Tibia" />
 		<attribute key="weight" value="500" />
 	</item>
-	<item id="24397" article="a" name="Ferumbras' Candy Hat">
-		<attribute key="primarytype" value="helmets" />
-		<attribute key="description" value="It is a sweet candy replica of the famous Ferumbras' hat" />
-		<attribute key="armor" value="1" />
-		<attribute key="weight" value="850" />
-		<attribute key="script" value="moveevent">
-			<attribute key="slot" value="head" />
-		</attribute>
+	<item id="24397" article="a" name="Galana Strike Amplifier">    
+		<attribute key="primarytype" value="helmets" />    
+		<attribute key="description" value="A mystical device crafted by the finest artisans of Galana X. This precision-engineered amplifier enhances your combat prowess, providing +5% critical hit chance." />    
+		<attribute key="armor" value="1" />    
+		<attribute key="weight" value="850" />    
+		<attribute key="slottype" value="ammo" />    
+		<attribute key="criticalhitchance" value="500" />    
+		<attribute key="script" value="moveevent">    
+			<attribute key="slot" value="ammo" />    
+		</attribute> 
 	</item>
 	<item fromid="24398" toid="24401" name="plate layered archway" />
 	<item id="24402" article="a" name="chocolatey dragon scale legs">
@@ -67669,12 +67673,9 @@ former students at the Noodles Academy. Awarded by TibiaLabs.com" />
 		<attribute key="magiclevelpoints" value="2" />
 		<attribute key="weight" value="2600" />
 		<attribute key="imbuementslot" value="2">
-			<attribute key="mana leech" value="3" />
-			<attribute key="skillboost axe" value="3" />
-			<attribute key="skillboost sword" value="3" />
-			<attribute key="skillboost club" value="3" />
-			<attribute key="skillboost shielding" value="3" />
-			<attribute key="skillboost distance" value="3" />
+			<attribute key="mana leech" value="3"/>
+			<attribute key="skillboost shielding" value="3"/>
+			<attribute key="skillboost magic level" value="3"/>
 		</attribute>
 		<attribute key="script" value="moveevent">
 			<attribute key="level" value="250" />
@@ -67689,12 +67690,9 @@ former students at the Noodles Academy. Awarded by TibiaLabs.com" />
 		<attribute key="magiclevelpoints" value="2" />
 		<attribute key="weight" value="2700" />
 		<attribute key="imbuementslot" value="2">
-			<attribute key="mana leech" value="3" />
-			<attribute key="skillboost axe" value="3" />
-			<attribute key="skillboost sword" value="3" />
-			<attribute key="skillboost club" value="3" />
-			<attribute key="skillboost shielding" value="3" />
-			<attribute key="skillboost distance" value="3" />
+			<attribute key="mana leech" value="3"/>
+			<attribute key="skillboost shielding" value="3"/>
+			<attribute key="skillboost magic level" value="3"/>
 		</attribute>
 		<attribute key="script" value="moveevent">
 			<attribute key="level" value="250" />
@@ -67713,11 +67711,8 @@ former students at the Noodles Academy. Awarded by TibiaLabs.com" />
 		<attribute key="defense" value="21" />
 		<attribute key="weight" value="2800" />
 		<attribute key="imbuementslot" value="1">
-			<attribute key="elemental protection death" value="3" />
-			<attribute key="elemental protection fire" value="3" />
-			<attribute key="elemental protection ice" value="3" />
-			<attribute key="elemental protection energy" value="3" />
-			<attribute key="elemental protection holy" value="3" />
+			<attribute key="mana leech" value="3"/>
+			<attribute key="skillboost magic level" value="3"/>
 			<attribute key="skillboost shielding" value="3" />
 		</attribute>
 		<attribute key="script" value="moveevent">
@@ -76729,16 +76724,16 @@ Granted by TibiaGoals.com" />
 		</attribute>
 	</item>
 	<item id="44638" article="a" name="knight pedestal">
-		<attribute key="primarytype" value="artificial tiles" />
+		<attribute key="primarytype" value="artificial tiles"/>
 	</item>
 	<item id="44639" article="a" name="paladin pedestal">
-		<attribute key="primarytype" value="artificial tiles" />
+		<attribute key="primarytype" value="artificial tiles"/>
 	</item>
 	<item id="44640" article="a" name="sorcerer pedestal">
-		<attribute key="primarytype" value="artificial tiles" />
+		<attribute key="primarytype" value="artificial tiles"/>
 	</item>
 	<item id="44641" article="a" name="druid pedestal">
-		<attribute key="primarytype" value="artificial tiles" />
+		<attribute key="primarytype" value="artificial tiles"/>
 	</item>
 	<item id="44642" name="stoic iks culet">
 		<attribute key="primarytype" value="legs" />
@@ -77242,10 +77237,10 @@ Granted by TibiaGoals.com" />
 		<attribute key="weight" value="30" />
 	</item>
 	<item id="46625" article="a" name="lesser fragment">
-		<attribute key="weight" value="5" />
+		<attribute key="weight" value="5"/>
 	</item>
 	<item id="46626" article="a" name="greater fragment">
-		<attribute key="weight" value="500" />
+		<attribute key="weight" value="500"/>
 	</item>
 	<item id="46627" article="a" name="crusher">
 		<attribute key="loottype" value="tools" />
@@ -82952,8 +82947,8 @@ Granted by TibiaGoals.com" />
 		<attribute key="floorchange" value="down" />
 	</item>
 	<item id="50096" article="a" name="ticket forge">
-		<attribute key="duration" value="20" />
-		<attribute key="containersize" value="20" />
+		<attribute key="duration" value="20"/>
+		<attribute key="containersize" value="20"/>
 	</item>
 	<item id="50101" article="a" name="bloodstained scythe">
 		<attribute key="primarytype" value="creature products" />
@@ -83024,12 +83019,12 @@ Granted by TibiaGoals.com" />
 		<attribute key="absorbpercentphysical" value="4" />
 		<attribute key="absorbpercentenergy" value="8" />
 		<attribute key="weight" value="3500" />
-		<attribute key="augments" value="1">
+		<attribute key="augments" value="2">
 			<attribute key="avatar of balance" value="cooldown">
-				<attribute key="value" value="900000" />
+				<attribute key="value" value="-900" />
 			</attribute>
-			<attribute key="chained penance" value="critical extra damage">
-				<attribute key="value" value="8" />
+			<attribute key="chained penance" value="chain target">
+				<attribute key="value" value="1" />
 			</attribute>
 		</attribute>
 		<attribute key="script" value="moveevent">
@@ -83154,8 +83149,9 @@ Granted by TibiaGoals.com" />
 	</item>
 	<item id="50155" article="an" name="enchanted merudri brooch">
 		<attribute key="primarytype" value="amulets and necklaces" />
-		<attribute key="mantra" value="2" />
+		<attribute key="mantra" value="3" />
 		<attribute key="skillfist" value="3" />
+		<attribute key="magicpoints" value="1" />
 		<attribute key="absorbpercentphysical" value="4" />
 		<attribute key="absorbpercentfire" value="15" />
 		<attribute key="transformDeEquipTo" value="50154" />
@@ -83824,7 +83820,7 @@ Granted by TibiaGoals.com" />
 			<attribute key="critical hit" value="3" />
 			<attribute key="skillboost fist" value="3" />
 		</attribute>
-		<attribute key="augments" value="1">
+		<attribute key="augments" value="2">
 			<attribute key="devastating knockout-" value="critical extra damage">
 				<attribute key="value" value="14" />
 			</attribute>
@@ -83849,7 +83845,7 @@ Granted by TibiaGoals.com" />
 		<attribute key="weight" value="1300" />
 		<attribute key="imbuementslot" value="1">
 			<attribute key="increase speed" value="3" />
-			<attribute key="paralysis removal" value="3" />
+			<attribute key="paralysis removal" value="3" />			
 		</attribute>
 		<attribute key="script" value="moveevent">
 			<attribute key="level" value="400" />
@@ -83985,7 +83981,7 @@ Granted by TibiaGoals.com" />
 			<attribute key="elemental protection earth" value="3" />
 			<attribute key="elemental protection fire" value="3" />
 			<attribute key="elemental protection energy" value="3" />
-			<attribute key="elemental protection holy" value="3" />
+			<attribute key="elemental protection holy" value="3" />			
 		</attribute>
 		<attribute key="script" value="moveevent">
 			<attribute key="level" value="400" />
@@ -84008,7 +84004,7 @@ Granted by TibiaGoals.com" />
 			<attribute key="elemental protection earth" value="3" />
 			<attribute key="elemental protection ice" value="3" />
 			<attribute key="elemental protection fire" value="3" />
-			<attribute key="elemental protection holy" value="3" />
+			<attribute key="elemental protection holy" value="3" />			
 		</attribute>
 		<attribute key="augments" value="1">
 			<attribute key="spirit mend" value="base">
@@ -84078,7 +84074,7 @@ Granted by TibiaGoals.com" />
 			<attribute key="elemental protection ice" value="3" />
 			<attribute key="elemental protection fire" value="3" />
 			<attribute key="elemental protection energy" value="3" />
-			<attribute key="elemental protection holy" value="3" />
+			<attribute key="elemental protection holy" value="3" />			
 		</attribute>
 		<attribute key="weight" value="10500" />
 		<attribute key="script" value="moveevent">
@@ -84100,7 +84096,7 @@ Granted by TibiaGoals.com" />
 			<attribute key="elemental protection ice" value="3" />
 			<attribute key="elemental protection fire" value="3" />
 			<attribute key="elemental protection energy" value="3" />
-			<attribute key="elemental protection holy" value="3" />
+			<attribute key="elemental protection holy" value="3" />			
 		</attribute>
 		<attribute key="augments" value="1">
 			<attribute key="greater flurry of blows" value="critical extra damage">
@@ -84130,7 +84126,7 @@ Granted by TibiaGoals.com" />
 			<attribute key="elemental protection earth" value="3" />
 			<attribute key="elemental protection ice" value="3" />
 			<attribute key="elemental protection energy" value="3" />
-			<attribute key="elemental protection holy" value="3" />
+			<attribute key="elemental protection holy" value="3" />			
 		</attribute>
 		<attribute key="augments" value="1">
 			<attribute key="flurry of blows" value="life leech">
@@ -84173,7 +84169,7 @@ Granted by TibiaGoals.com" />
 			<attribute key="elemental protection ice" value="3" />
 			<attribute key="elemental protection fire" value="3" />
 			<attribute key="elemental protection energy" value="3" />
-			<attribute key="elemental protection holy" value="3" />
+			<attribute key="elemental protection holy" value="3" />			
 		</attribute>
 		<attribute key="augments" value="1">
 			<attribute key="flurry of blows" value="life leech">
@@ -84195,7 +84191,7 @@ Granted by TibiaGoals.com" />
 		<attribute key="weight" value="1300" />
 		<attribute key="imbuementslot" value="1">
 			<attribute key="increase speed" value="3" />
-			<attribute key="paralysis removal" value="3" />
+			<attribute key="paralysis removal" value="3" />			
 		</attribute>
 		<attribute key="script" value="moveevent">
 			<attribute key="level" value="300" />
@@ -84211,7 +84207,7 @@ Granted by TibiaGoals.com" />
 		<attribute key="weight" value="900" />
 		<attribute key="imbuementslot" value="1">
 			<attribute key="increase speed" value="3" />
-			<attribute key="paralysis removal" value="3" />
+			<attribute key="paralysis removal" value="3" />			
 		</attribute>
 		<attribute key="script" value="moveevent">
 			<attribute key="level" value="8" />
@@ -84225,6 +84221,7 @@ Granted by TibiaGoals.com" />
 		<attribute key="armor" value="8" />
 		<attribute key="mantra" value="15" />
 		<attribute key="skillfist" value="3" />
+		<attribute key="magicpoints" value="1" />
 		<attribute key="absorbpercentice" value="4" />
 		<attribute key="weight" value="2400" />
 		<attribute key="imbuementslot" value="1">
@@ -84233,7 +84230,7 @@ Granted by TibiaGoals.com" />
 			<attribute key="elemental protection earth" value="3" />
 			<attribute key="elemental protection fire" value="3" />
 			<attribute key="elemental protection energy" value="3" />
-			<attribute key="elemental protection holy" value="3" />
+			<attribute key="elemental protection holy" value="3" />			
 		</attribute>
 		<attribute key="augments" value="1">
 			<attribute key="forceful uppercut" value="cooldown">
@@ -84424,7 +84421,7 @@ Granted by TibiaGoals.com" />
 			<attribute key="elemental protection ice" value="3" />
 			<attribute key="elemental protection fire" value="3" />
 			<attribute key="elemental protection energy" value="3" />
-			<attribute key="elemental protection holy" value="3" />
+			<attribute key="elemental protection holy" value="3" />			
 		</attribute>
 		<attribute key="script" value="moveevent">
 			<attribute key="level" value="150" />
@@ -84500,7 +84497,7 @@ Granted by TibiaGoals.com" />
 		<attribute key="weight" value="700" />
 		<attribute key="imbuementslot" value="1">
 			<attribute key="increase speed" value="3" />
-			<attribute key="paralysis removal" value="3" />
+			<attribute key="paralysis removal" value="3" />			
 		</attribute>
 		<attribute key="script" value="moveevent">
 			<attribute key="level" value="80" />
@@ -84517,7 +84514,7 @@ Granted by TibiaGoals.com" />
 		<attribute key="weight" value="1100" />
 		<attribute key="imbuementslot" value="1">
 			<attribute key="increase speed" value="3" />
-			<attribute key="paralysis removal" value="3" />
+			<attribute key="paralysis removal" value="3" />			
 		</attribute>
 		<attribute key="script" value="moveevent">
 			<attribute key="level" value="150" />
@@ -84533,7 +84530,7 @@ Granted by TibiaGoals.com" />
 		<attribute key="weight" value="800" />
 		<attribute key="imbuementslot" value="1">
 			<attribute key="increase speed" value="3" />
-			<attribute key="paralysis removal" value="3" />
+			<attribute key="paralysis removal" value="3" />			
 		</attribute>
 		<attribute key="script" value="moveevent">
 			<attribute key="level" value="250" />
