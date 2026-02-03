@@ -12,6 +12,7 @@ on:
       - "src/**"
     branches:
       - main
+      - crystal
 env:
   CMAKE_BUILD_PARALLEL_LEVEL: 2
   MAKEFLAGS: "-j 2"
