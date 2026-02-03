@@ -8551,10 +8551,10 @@ void Player::sendProgressRace(uint16_t raceId, uint8_t progressLevel, bool isBos
 
 void Player::sendProgressQuest(const std::string &questName, bool isCompleted) const {
 	if (client) {
-			client->sendProgressQuest(questName, isCompleted);
+		client->sendProgressQuest(questName, isCompleted);
 	}
 }
-	
+
 void Player::sendProficiencyProgress(uint16_t itemId, const std::string &message) const {
 	if (client) {
 		client->sendProficiencyProgress(itemId, message);
