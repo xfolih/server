@@ -1051,9 +1051,14 @@ void ProtocolGame::disconnectClient(const std::string &message) const {
 }
 
 void ProtocolGame::writeToOutputBuffer(NetworkMessage &msg) {
-	g_dispatcher().safeCall([self = getThis(), msg = std::move(msg)] {
-		self->getOutputBuffer(msg.getLength())->append(msg);
-	});
+	if (g_dispatcher().context().isAsync()) {
+		g_dispatcher().addEvent([self = getThis(), msg] {
+			self->getOutputBuffer(msg.getLength())->append(msg);
+		},
+		                        __FUNCTION__);
+	} else {
+		getOutputBuffer(msg.getLength())->append(msg);
+	}
 }
 
 void ProtocolGame::parsePacket(NetworkMessage &msg) {
@@ -1062,6 +1067,11 @@ void ProtocolGame::parsePacket(NetworkMessage &msg) {
 	}
 
 	uint8_t recvbyte = msg.getByte();
+
+	// Silence ping/pong: 0x1D = pingBack, 0x1E = ping [TRACKS CLIENT BYTES]
+	if (recvbyte != 0x1D && recvbyte != 0x1E) {
+		g_logger().debug("BYTE RECEIVED: 0x{:02X}", recvbyte);
+	}
 
 	if (!player || player->isRemoved()) {
 		if (recvbyte == 0x0F) {
@@ -7471,6 +7481,7 @@ void ProtocolGame::sendLocalPlayer(const Position &pos, const bool isLogin) {
 }
 
 void ProtocolGame::sendServerConfig() {
+#ifndef PROTOCOL_DISABLE_SERVER_CONFIG
 	NetworkMessage msg;
 	msg.addByte(0x17);
 
@@ -7513,6 +7524,7 @@ void ProtocolGame::sendServerConfig() {
 	}
 
 	writeToOutputBuffer(msg);
+#endif
 }
 
 void ProtocolGame::sendFYIBox(const std::string &message) {
@@ -7606,6 +7618,7 @@ void ProtocolGame::sendUpdateTile(const std::shared_ptr<Tile> &tile, const Posit
 }
 
 void ProtocolGame::sendPendingStateEntered() {
+#ifndef PROTOCOL_DISABLE_PENDING_STATE
 	if (!player || oldProtocol) {
 		return;
 	}
@@ -7613,12 +7626,15 @@ void ProtocolGame::sendPendingStateEntered() {
 	NetworkMessage msg;
 	msg.addByte(0x0A);
 	writeToOutputBuffer(msg);
+#endif
 }
 
 void ProtocolGame::sendEnterWorld() {
+#ifndef PROTOCOL_DISABLE_ENTER_WORLD
 	NetworkMessage msg;
 	msg.addByte(0x0F);
 	writeToOutputBuffer(msg);
+#endif
 }
 
 void ProtocolGame::sendFightModes() {
