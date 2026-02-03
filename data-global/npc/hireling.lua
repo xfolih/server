@@ -2350,7 +2350,7 @@ function createHirelingType(HirelingName)
 			npcHandler:setTopic(playerId, TOPIC.NONE)
 			npcHandler:say(imbuementPackages, npc, creature)
 		end
-		local skillMapping = {--test hireling mapping
+		local skillMapping = { --test hireling mapping
 			["bank"] = {
 				skill = HIRELING_SKILLS.BANKER[2],
 				topic = TOPIC.BANK,
