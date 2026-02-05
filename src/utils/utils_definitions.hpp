@@ -34,8 +34,7 @@ enum SpawnType_t : uint8_t {
 };
 
 enum Cipbia_Elementals_t : uint8_t {
-	CIPBIA_ELEMENTAL_FIRST = 0,
-	CIPBIA_ELEMENTAL_PHYSICAL = CIPBIA_ELEMENTAL_FIRST,
+	CIPBIA_ELEMENTAL_PHYSICAL = 0,
 	CIPBIA_ELEMENTAL_FIRE = 1,
 	CIPBIA_ELEMENTAL_EARTH = 2,
 	CIPBIA_ELEMENTAL_ENERGY = 3,
@@ -47,7 +46,20 @@ enum Cipbia_Elementals_t : uint8_t {
 	CIPBIA_ELEMENTAL_LIFEDRAIN = 9,
 	CIPBIA_ELEMENTAL_MANADRAIN = 10,
 	CIPBIA_ELEMENTAL_AGONY = 11,
-	CIPBIA_ELEMENTAL_LAST = CIPBIA_ELEMENTAL_AGONY,
+	CIPBIA_ELEMENTAL_UNDEFINED = 12,
+};
+
+enum MagicEffectSources : uint8_t {
+	// always 100% opacity, not configurable
+	ME_SOURCE_DEFAULT = 0,
+
+	// configurable with sliders in the client
+	ME_SOURCE_OWN = 1,
+	ME_SOURCE_OTHER_PLAYER = 2,
+	ME_SOURCE_MONSTER = 3,
+	ME_SOURCE_BOSS = 4,
+
+	ME_SOURCE_LAST = ME_SOURCE_BOSS
 };
 
 enum MagicEffectClasses : uint16_t {
@@ -457,6 +469,7 @@ enum TextColor_t : uint8_t {
 
 enum WeaponType_t : uint8_t {
 	WEAPON_NONE,
+	WEAPON_FIST,
 	WEAPON_SWORD,
 	WEAPON_CLUB,
 	WEAPON_AXE,
@@ -465,7 +478,6 @@ enum WeaponType_t : uint8_t {
 	WEAPON_WAND,
 	WEAPON_AMMO,
 	WEAPON_MISSILE,
-	WEAPON_FIST,
 };
 
 enum Ammo_t : uint8_t {

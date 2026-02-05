@@ -36,9 +36,16 @@ void Protocol::onSendMessage(const OutputMessage_ptr &msg) {
 			return;
 		}
 
+		// Log message length before padding/encryption for debugging
+		size_t lengthBeforePadding = msg->getLength();
+		
 		msg->writePaddingAmount();
 
 		XTEA_encrypt(*msg);
+		
+		// Log message length after encryption for debugging
+		size_t lengthAfterEncryption = msg->getLength();
+		
 		if (checksumMethod == CHECKSUM_METHOD_NONE) {
 			msg->addCryptoHeader(false, 0);
 		} else if (checksumMethod == CHECKSUM_METHOD_ADLER32) {
@@ -48,6 +55,30 @@ void Protocol::onSendMessage(const OutputMessage_ptr &msg) {
 			if (serverSequenceNumber >= 0x7FFFFFFF) {
 				serverSequenceNumber = 0;
 			}
+		}
+		
+		// Log final message length for debugging packet corruption
+		size_t finalLength = msg->getLength();
+		if (lengthBeforePadding > 1000 || finalLength > 1000) {
+			g_logger().info("[Protocol::onSendMessage] Large message: beforePadding={}, afterEncryption={}, finalLength={}, checksumMethod={}", 
+				lengthBeforePadding, lengthAfterEncryption, finalLength, checksumMethod);
+		}
+		
+		// DETAILED BYTE LOGGING for first few packets after login
+		thread_local static int packetCount = 0;
+		if (packetCount < 5 || finalLength > 1000) {
+			std::string hexDump;
+			const uint8_t* buffer = msg->getOutputBuffer();
+			// For the first large packet (login packet), log ALL bytes for byte-by-byte comparison
+			size_t logSize = (packetCount == 0 && finalLength > 1000) ? finalLength : std::min(finalLength, static_cast<size_t>(256));
+			for (size_t i = 0; i < logSize; ++i) {
+				hexDump += fmt::format("{:02X} ", buffer[i]);
+			}
+			if (finalLength > logSize) {
+				hexDump += fmt::format("... (total {} bytes)", finalLength);
+			}
+			g_logger().info("[Protocol::onSendMessage] Packet #{}: length={}, bytes: {}", packetCount, finalLength, hexDump);
+			packetCount++;
 		}
 	}
 }
@@ -74,6 +105,23 @@ bool Protocol::sendRecvMessageCallback(NetworkMessage &msg) {
 }
 
 bool Protocol::onRecvMessage(NetworkMessage &msg) {
+	// DETAILED BYTE LOGGING for received packets
+	thread_local static int recvPacketCount = 0;
+	if (recvPacketCount < 10) {
+		std::string hexDump;
+		const uint8_t* buffer = msg.getBuffer() + msg.getBufferPosition();
+		size_t length = msg.getLength() - msg.getBufferPosition();
+		size_t logSize = std::min(length, static_cast<size_t>(128)); // Log first 128 bytes
+		for (size_t i = 0; i < logSize; ++i) {
+			hexDump += fmt::format("{:02X} ", buffer[i]);
+		}
+		if (length > 128) {
+			hexDump += fmt::format("... (total {} bytes)", length);
+		}
+		g_logger().info("[Protocol::onRecvMessage] Received packet #{}: length={}, bytes: {}", recvPacketCount, length, hexDump);
+		recvPacketCount++;
+	}
+	
 	if (checksumMethod != CHECKSUM_METHOD_NONE) {
 		const auto recvChecksum = msg.get<uint32_t>();
 		if (checksumMethod == CHECKSUM_METHOD_SEQUENCE) {
@@ -159,7 +207,10 @@ void Protocol::XTEA_transform(uint8_t* buffer, size_t messageLength, bool encryp
 
 	while (readPos < messageLength) {
 		std::array<uint8_t, 8> tempBuffer;
-		std::ranges::copy_n(buffer + readPos, 8, tempBuffer.begin());
+		if (std::memcpy(tempBuffer.data(), buffer + readPos, tempBuffer.size()) == nullptr) {
+			g_logger().error("[{}] memcpy failed while preparing XTEA block", __FUNCTION__);
+			return;
+		}
 
 		// Convert bytes to uint32_t considering little-endian order
 		std::array<uint8_t, 4> bytes0;
@@ -209,11 +260,16 @@ void Protocol::XTEA_encrypt(OutputMessage &outputMessage) const {
 
 bool Protocol::XTEA_decrypt(NetworkMessage &msg) const {
 	uint16_t msgLength = msg.getLength() - (checksumMethod == CHECKSUM_METHOD_NONE ? 2 : 6);
+	uint8_t* buffer = msg.getBuffer() + msg.getBufferPosition();
 	if ((msgLength % 8) != 0) {
+		g_logger().error("XTEA_decrypt Failed - invalid block size: {}", msgLength);
+		for (int i = 0; i < msgLength; ++i) {
+			fmt::print("{:02X} ", buffer[i]);
+		}
+		fmt::print("\n");
 		return false;
 	}
 
-	uint8_t* buffer = msg.getBuffer() + msg.getBufferPosition();
 	size_t messageLength = msgLength;
 
 	XTEA_transform(buffer, messageLength, false);
@@ -221,6 +277,7 @@ bool Protocol::XTEA_decrypt(NetworkMessage &msg) const {
 	uint8_t paddingSize = msg.getByte();
 	uint16_t innerLength = messageLength - paddingSize;
 	if (innerLength + paddingSize > msgLength) {
+		g_logger().error("XTEA_decrypt Failed - invalid inner length: {} + {} > {}", innerLength, paddingSize, msgLength);
 		return false;
 	}
 

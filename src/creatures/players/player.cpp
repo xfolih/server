@@ -6416,6 +6416,7 @@ void Player::onEndCondition(ConditionType_t type) {
 		onIdleStatus();
 		pzLocked = false;
 		clearAttacked();
+		sendOpenPvpSituations();
 
 		if (getSkull() != SKULL_RED && getSkull() != SKULL_BLACK) {
 			setSkull(SKULL_NONE);
@@ -6541,6 +6542,7 @@ void Player::onPlacedCreature() {
 	this->onChangeZone(this->getZoneType());
 
 	sendUnjustifiedPoints();
+	sendOpenPvpSituations();
 }
 
 void Player::onAttackedCreatureDrainHealth(const std::shared_ptr<Creature> &target, int32_t points) {
@@ -7195,6 +7197,7 @@ void Player::addAttacked(const std::shared_ptr<Player> &attacked) {
 	}
 
 	attackedSet.emplace(attacked->guid);
+	sendOpenPvpSituations();
 }
 
 void Player::removeAttacked(const std::shared_ptr<Player> &attacked) {
@@ -7207,6 +7210,7 @@ void Player::removeAttacked(const std::shared_ptr<Player> &attacked) {
 
 void Player::clearAttacked() {
 	attackedSet.clear();
+	sendOpenPvpSituations();
 }
 
 void Player::addUnjustifiedDead(const std::shared_ptr<Player> &attacked) {
@@ -7880,6 +7884,12 @@ void Player::setBedItem(std::shared_ptr<BedItem> b) {
 	bedItem = std::move(b);
 }
 
+void Player::sendOpenPvpSituations() {
+	if (client) {
+		client->sendOpenPvpSituations(static_cast<uint8_t>(std::min(attackedSet.size(), static_cast<size_t>(std::numeric_limits<uint8_t>::max()))));
+	}
+}
+
 void Player::sendUnjustifiedPoints() const {
 	if (client) {
 		double dayKills = 0;
@@ -8551,10 +8561,10 @@ void Player::sendProgressRace(uint16_t raceId, uint8_t progressLevel, bool isBos
 
 void Player::sendProgressQuest(const std::string &questName, bool isCompleted) const {
 	if (client) {
-		client->sendProgressQuest(questName, isCompleted);
+			client->sendProgressQuest(questName, isCompleted);
 	}
 }
-
+	
 void Player::sendProficiencyProgress(uint16_t itemId, const std::string &message) const {
 	if (client) {
 		client->sendProficiencyProgress(itemId, message);
@@ -8909,6 +8919,40 @@ void Player::sendPassiveCooldown(uint8_t passiveId, uint32_t currentCooldown, ui
 void Player::sendUseItemCooldown(uint32_t time) const {
 	if (client) {
 		client->sendUseItemCooldown(time);
+	}
+}
+
+void Player::sendSpellCooldowns() {
+	constexpr auto maxu16 = std::numeric_limits<uint16_t>::max();
+
+	for (const auto &condItem : conditions) {
+		if (!condItem) {
+			continue;
+		}
+
+		const ConditionType_t type = condItem->getType();
+		const uint32_t subId = condItem->getSubId();
+
+		if (type != CONDITION_SPELLCOOLDOWN && type != CONDITION_SPELLGROUPCOOLDOWN) {
+			continue;
+		}
+
+		uint16_t spellId = subId > maxu16 ? 0u : static_cast<uint16_t>(subId);
+		const auto &spell = g_spells().getInstantSpellById(spellId);
+		if (!spell) {
+			continue;
+		}
+
+		const uint32_t ticks = std::max<int32_t>(0, condItem->getTicks());
+		if (ticks == 0) {
+			continue;
+		}
+
+		if (type == CONDITION_SPELLGROUPCOOLDOWN) {
+			sendSpellGroupCooldown(static_cast<SpellGroup_t>(spellId), ticks);
+		} else {
+			sendSpellCooldown(spellId, ticks);
+		}
 	}
 }
 
@@ -9671,10 +9715,12 @@ void Player::initializeTaskHunting() {
 		}
 	}
 
+#ifndef PROTOCOL_DISABLE_HUNTING_TASKS
 	if (client && g_configManager().getBoolean(TASK_HUNTING_ENABLED) && !client->oldProtocol) {
 		auto buffer = g_ioprey().getTaskHuntingBaseDate();
 		client->writeToOutputBuffer(buffer);
 	}
+#endif
 }
 
 bool Player::isCreatureUnlockedOnTaskHunting(const std::shared_ptr<MonsterType> &mtype) const {

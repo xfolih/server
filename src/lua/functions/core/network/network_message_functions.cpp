@@ -63,7 +63,14 @@ int NetworkMessageFunctions::luaNetworkMessageGetByte(lua_State* L) {
 	// networkMessage:getByte()
 	const auto &message = Lua::getUserdataShared<NetworkMessage>(L, 1);
 	if (message) {
-		lua_pushnumber(L, message->getByte());
+		// Check if there's enough data before reading
+		if (!message->canRead(1)) {
+			// Return 0 instead of causing an error for short packets
+			// This prevents crashes when otclient sends short packets
+			lua_pushnumber(L, 0);
+		} else {
+			lua_pushnumber(L, message->getByte());
+		}
 	} else {
 		lua_pushnil(L);
 	}

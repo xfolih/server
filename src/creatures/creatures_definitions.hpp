@@ -30,6 +30,26 @@
 #endif
 
 // Enum
+/**
+ * @brief Represents different types of Monk-related status flags.
+ */
+enum class MonkData_t : uint8_t {
+	Harmony = 0x00, ///< Indicates the player has the Harmony effect.
+	Serenity = 0x01, ///< Indicates the player has the Serenity effect.
+	Virtue = 0x02, ///< Indicates the player has the Virtue effect.
+};
+
+/**
+ * @brief Represents the Monk Virtue types.
+ * @note Do not change the order. It is hardcoded in CipSoft's client.
+ */
+enum class Virtue_t : uint8_t {
+	None = 0x00, ///< No virtue selected.
+	Harmony = 0x01, ///< Virtue of balance and unity.
+	Justice = 0x02, ///< Virtue of fairness and retribution.
+	Sustain = 0x03, ///< Virtue of endurance and support.
+};
+
 enum SkillsId_t {
 	SKILLVALUE_LEVEL = 0,
 	SKILLVALUE_TRIES = 1,

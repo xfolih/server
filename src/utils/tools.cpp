@@ -260,7 +260,7 @@ std::string generateToken(const std::string &key, uint32_t ticks) {
 }
 
 void replaceString(std::string &str, const std::string &sought, const std::string &replacement) {
-	if (str.empty()) {
+	if (str.empty() || sought.empty()) {
 		return;
 	}
 
@@ -2014,7 +2014,7 @@ Cipbia_Elementals_t getCipbiaElement(CombatType_t combatType) {
 		case COMBAT_NEUTRALDAMAGE:
 			return CIPBIA_ELEMENTAL_AGONY;
 		default:
-			return CIPBIA_ELEMENTAL_PHYSICAL;
+			return CIPBIA_ELEMENTAL_UNDEFINED;
 	}
 }
 

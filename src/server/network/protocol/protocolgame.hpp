@@ -40,6 +40,7 @@ enum CombatType_t : uint8_t;
 enum SoundEffect_t : uint16_t;
 enum class SourceEffect_t : uint8_t;
 enum class HouseAuctionType : uint8_t;
+enum class MonkData_t : uint8_t;
 
 class NetworkMessage;
 class Player;
@@ -319,10 +320,11 @@ private:
 	void parseSetMonsterPodium(NetworkMessage &msg) const;
 	void sendBosstiaryCooldownTimer();
 	void sendBosstiaryEntryChanged(uint32_t bossid);
+	void sendOpenPvpSituations(uint8_t openPvpSituations);
 
 	void sendAllowBugReport();
-	void sendDistanceShoot(const Position &from, const Position &to, uint16_t type);
-	void sendMagicEffect(const Position &pos, uint16_t type);
+	void sendDistanceShoot(const Position &from, const Position &to, uint16_t type, uint8_t effectSource = ME_SOURCE_DEFAULT);
+	void sendMagicEffect(const Position &pos, uint16_t type, uint8_t effectSource = ME_SOURCE_DEFAULT);
 	void removeMagicEffect(const Position &pos, uint16_t type);
 	void sendRestingStatus(uint8_t protection);
 	void sendCreatureHealth(const std::shared_ptr<Creature> &creature);
@@ -550,6 +552,7 @@ private:
 	void sendHarmonyProtocol(const uint8_t harmonyValue);
 	void sendSereneProtocol(const bool isSerene = true);
 	void sendVirtueProtocol(const uint8_t virtueValue);
+	void sendMonkState(MonkData_t type, uint8_t value);
 	void parseSelectSpellAimProtocol(NetworkMessage &msg);
 
 	void parseImbuementWindow(NetworkMessage &msg);
@@ -598,17 +601,17 @@ private:
 
 	// milestones
 	void sendClientEvent(ClientEvent_t eventType);
-	void sendUnlockedAchievement(const std::string &achievement);
-	void sendUnlockedTitle(const std::string &title);
-	void sendUnlockedSkin(const std::string &skinName, uint16_t lookType, uint8_t skinType);
+	void sendUnlockedAchievement(const std::string& achievement);
+	void sendUnlockedTitle(const std::string& title);
+	void sendUnlockedSkin(const std::string& skinName, uint16_t lookType, uint8_t skinType);
 	void sendSkillAdvance(skills_t skill, uint16_t newLevel);
 	void sendProgressRace(uint16_t raceId, uint8_t progressLevel, bool isBoss);
-	void sendProgressQuest(const std::string &questName, bool isCompleted);
-	void sendProficiencyProgress(uint16_t itemId, const std::string &message);
+	void sendProgressQuest(const std::string& questName, bool isCompleted);
+	void sendProficiencyProgress(uint16_t itemId, const std::string& message);
 
 	void sendDisableLoginMusic();
 
-	static void addNPCButtonIfExists(std::vector<KeywordButtonIcon> &buttons, KeywordButtonIcon icon, uint16_t flags) {
+	static void addNPCButtonIfExists(std::vector<KeywordButtonIcon>& buttons, KeywordButtonIcon icon, uint16_t flags) {
 		if ((flags & (1 << icon)) != 0) {
 			buttons.push_back(icon);
 		}

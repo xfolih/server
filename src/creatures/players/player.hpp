@@ -447,6 +447,7 @@ public:
 	void clearPartyInvitations();
 
 	void sendUnjustifiedPoints() const;
+	void sendOpenPvpSituations();
 
 	GuildEmblems_t getGuildEmblem(const std::shared_ptr<Player> &player) const;
 
@@ -918,6 +919,7 @@ public:
 	void sendCreatureShield(const std::shared_ptr<Creature> &creature) const;
 	void sendCreatureType(const std::shared_ptr<Creature> &creature, uint8_t creatureType) const;
 	void sendSpellCooldown(uint16_t spellId, uint32_t time) const;
+	void sendSpellCooldowns();
 	void sendSpellGroupCooldown(SpellGroup_t groupId, uint32_t time) const;
 	void sendPassiveCooldown(uint8_t passiveId, uint32_t currentCooldown, uint32_t maxCooldown, bool paused) const;
 	void sendUseItemCooldown(uint32_t time) const;
@@ -1102,13 +1104,13 @@ public:
 	void sendOpenStash(bool isNpc = false) const;
 
 	void sendClientEvent(ClientEvent_t EventType) const;
-	void sendUnlockedAchievement(const std::string &achievement) const;
-	void sendUnlockedTitle(const std::string &title) const;
-	void sendUnlockedSkin(const std::string &skinName, uint16_t lookType, uint8_t skinType) const;
+	void sendUnlockedAchievement(const std::string& achievement) const;
+	void sendUnlockedTitle(const std::string& title) const;
+	void sendUnlockedSkin(const std::string& skinName, uint16_t lookType, uint8_t skinType) const;
 	void sendSkillAdvance(skills_t skill, uint16_t newLevel) const;
 	void sendProgressRace(uint16_t raceId, uint8_t progressLevel, bool isBoss = false) const;
-	void sendProgressQuest(const std::string &questName, bool isCompleted = false) const;
-	void sendProficiencyProgress(uint16_t itemId, const std::string &message) const;
+	void sendProgressQuest(const std::string& questName, bool isCompleted = false) const;
+	void sendProficiencyProgress(uint16_t itemId, const std::string& message) const;
 
 	void onThink(uint32_t interval) override;
 
