@@ -886,8 +886,8 @@ void ProtocolGame::onRecvFirstMessage(NetworkMessage &msg) {
 		size_t start = 0;
 		size_t end;
 		while ((end = sessionKey.find('\n', start)) != std::string::npos) {
-				sessionKeyParts.push_back(sessionKey.substr(start, end - start));
-				start = end + 1;
+			sessionKeyParts.push_back(sessionKey.substr(start, end - start));
+			start = end + 1;
 		}
 		sessionKeyParts.push_back(sessionKey.substr(start));
 
@@ -1069,24 +1069,23 @@ void ProtocolGame::writeToOutputBuffer(NetworkMessage &msg) {
 			}
 		}
 	}
-	
+
 	// Validate message length before sending
 	if (msg.getLength() == 0) {
 		g_logger().warn("[ProtocolGame::writeToOutputBuffer] Attempted to send empty message!");
 		return;
 	}
-	
+
 	// Log critical messages that might cause packet corruption
 	if (msg.getLength() > 0) {
 		const uint8_t* buffer = msg.getBuffer();
 		uint8_t opcode = buffer[NetworkMessage::INITIAL_BUFFER_POSITION];
 		// Log large messages that might cause issues
 		if (msg.getLength() > 1000 || opcode == 0x64 || opcode == 0xBA || opcode == 0xC6 || opcode == 0xA1) {
-			g_logger().info("[ProtocolGame::writeToOutputBuffer] CRITICAL: Sending large/critical opcode: 0x{:02X}, length: {} bytes, version: {}, oldProtocol: {}", 
-				opcode, msg.getLength(), version, oldProtocol);
+			g_logger().info("[ProtocolGame::writeToOutputBuffer] CRITICAL: Sending large/critical opcode: 0x{:02X}, length: {} bytes, version: {}, oldProtocol: {}", opcode, msg.getLength(), version, oldProtocol);
 		}
 	}
-	
+
 	if (g_dispatcher().context().isAsync()) {
 		g_dispatcher().addEvent([self = getThis(), msg] {
 			self->getOutputBuffer(msg.getLength())->append(msg);
@@ -4458,9 +4457,9 @@ void ProtocolGame::sendCyclopediaCharacterTitles() {
 }
 
 void ProtocolGame::sendCyclopediaCharacterOffenceStats() {
-// to do in the future: stat system needs a rework
-// caching stats on the player will cost more memory, but will save cpu
-// by not having to access every inventory item separately
+	// to do in the future: stat system needs a rework
+	// caching stats on the player will cost more memory, but will save cpu
+	// by not having to access every inventory item separately
 	if (!player || oldProtocol) {
 		return;
 	}
@@ -4668,7 +4667,7 @@ void ProtocolGame::sendCyclopediaCharacterOffenceStats() {
 
 	// Perfect shot range (12.70)
 	for (uint8_t range = 1; range <= 7; range++) {
-		msg.add<uint16_t>(static_cast<uint16_t>(player->getPerfectShotDamage(range)));
+	    msg.add<uint16_t>(static_cast<uint16_t>(player->getPerfectShotDamage(range)));
 	}
 
 	const auto flatBonus = player->calculateFlatDamageHealing();
@@ -4678,117 +4677,117 @@ void ProtocolGame::sendCyclopediaCharacterOffenceStats() {
 
 	const auto &weapon = player->getWeapon();
 	if (weapon) {
-		const ItemType &it = Item::items[weapon->getID()];
-		if (it.weaponType == WEAPON_WAND) {
-			msg.add<uint16_t>(it.maxHitChance);
-			msg.add<uint16_t>(0);
-			msg.add<uint16_t>(0);
-			msg.addByte(0x00);
-			msg.add<uint16_t>(0);
-			msg.add<uint16_t>(0);
-			msg.addByte(getCipbiaElement(it.combatType));
-			msg.addDouble(0.0);
-			msg.addByte(0x00);
-			msg.addByte(0x00);
-		} else if (it.weaponType == WEAPON_DISTANCE || it.weaponType == WEAPON_AMMO || it.weaponType == WEAPON_MISSILE) {
-			int32_t physicalAttack = std::max<int32_t>(0, weapon->getAttack());
-			int32_t elementalAttack = 0;
-			if (it.abilities && it.abilities->elementType != COMBAT_NONE) {
-				elementalAttack = std::max<int32_t>(0, it.abilities->elementDamage);
-			}
-			int32_t attackValue = physicalAttack + elementalAttack;
-			if (it.weaponType == WEAPON_AMMO) {
-				std::shared_ptr<Item> weaponItem = player->getWeapon(true);
-				if (weaponItem) {
-					attackValue += weaponItem->getAttack();
-				}
-			}
+	    const ItemType &it = Item::items[weapon->getID()];
+	    if (it.weaponType == WEAPON_WAND) {
+	        msg.add<uint16_t>(it.maxHitChance);
+	        msg.add<uint16_t>(0);
+	        msg.add<uint16_t>(0);
+	        msg.addByte(0x00);
+	        msg.add<uint16_t>(0);
+	        msg.add<uint16_t>(0);
+	        msg.addByte(getCipbiaElement(it.combatType));
+	        msg.addDouble(0.0);
+	        msg.addByte(0x00);
+	        msg.addByte(0x00);
+	    } else if (it.weaponType == WEAPON_DISTANCE || it.weaponType == WEAPON_AMMO || it.weaponType == WEAPON_MISSILE) {
+	        int32_t physicalAttack = std::max<int32_t>(0, weapon->getAttack());
+	        int32_t elementalAttack = 0;
+	        if (it.abilities && it.abilities->elementType != COMBAT_NONE) {
+	            elementalAttack = std::max<int32_t>(0, it.abilities->elementDamage);
+	        }
+	        int32_t attackValue = physicalAttack + elementalAttack;
+	        if (it.weaponType == WEAPON_AMMO) {
+	            std::shared_ptr<Item> weaponItem = player->getWeapon(true);
+	            if (weaponItem) {
+	                attackValue += weaponItem->getAttack();
+	            }
+	        }
 
-			int32_t distanceValue = player->getSkillLevel(SKILL_DISTANCE);
-			int32_t attackSkill = player->getDistanceAttackSkill(distanceValue, attackValue);
-			const auto attackRawTotal = player->attackRawTotal(flatBonus, attackValue, distanceValue);
-			const auto attackTotal = player->attackTotal(flatBonus, attackValue, distanceValue);
+	        int32_t distanceValue = player->getSkillLevel(SKILL_DISTANCE);
+	        int32_t attackSkill = player->getDistanceAttackSkill(distanceValue, attackValue);
+	        const auto attackRawTotal = player->attackRawTotal(flatBonus, attackValue, distanceValue);
+	        const auto attackTotal = player->attackTotal(flatBonus, attackValue, distanceValue);
 
-			msg.add<uint16_t>(attackTotal);
-			msg.add<uint16_t>(flatBonus);
-			msg.add<uint16_t>(static_cast<uint16_t>(attackValue));
-			msg.addByte(0x07);
-			msg.add<uint16_t>(attackSkill);
-			msg.add<uint16_t>(attackTotal - attackRawTotal);
-			msg.addByte(CIPBIA_ELEMENTAL_PHYSICAL);
+	        msg.add<uint16_t>(attackTotal);
+	        msg.add<uint16_t>(flatBonus);
+	        msg.add<uint16_t>(static_cast<uint16_t>(attackValue));
+	        msg.addByte(0x07);
+	        msg.add<uint16_t>(attackSkill);
+	        msg.add<uint16_t>(attackTotal - attackRawTotal);
+	        msg.addByte(CIPBIA_ELEMENTAL_PHYSICAL);
 
-			// Converted Damage
-			if (it.abilities && it.abilities->elementType != COMBAT_NONE) {
-				if (physicalAttack) {
-					msg.addDouble(elementalAttack / static_cast<double>(attackValue));
-				} else {
-					msg.addDouble(0.0);
-				}
-				msg.addByte(getCipbiaElement(it.abilities->elementType));
-			} else {
-				handleImbuementDamage(msg, player);
-			}
+	        // Converted Damage
+	        if (it.abilities && it.abilities->elementType != COMBAT_NONE) {
+	            if (physicalAttack) {
+	                msg.addDouble(elementalAttack / static_cast<double>(attackValue));
+	            } else {
+	                msg.addDouble(0.0);
+	            }
+	            msg.addByte(getCipbiaElement(it.abilities->elementType));
+	        } else {
+	            handleImbuementDamage(msg, player);
+	        }
 
-			const auto distanceAccuracy = player->getDamageAccuracy(it);
-			const auto distanceAccuracySize = distanceAccuracy.size();
-			msg.addByte(distanceAccuracy.size());
-			for (uint8_t i = 0; i < distanceAccuracySize; ++i) {
-				msg.addByte(i + 1);
-				msg.addDouble(distanceAccuracy[i] / 100.);
-			}
-		} else {
-			int32_t physicalAttack = std::max<int32_t>(0, weapon->getAttack());
-			int32_t elementalAttack = 0;
-			if (it.abilities && it.abilities->elementType != COMBAT_NONE) {
-				elementalAttack = std::max<int32_t>(0, it.abilities->elementDamage);
-			}
-			int32_t weaponAttack = physicalAttack + elementalAttack;
-			int32_t weaponSkill = player->getWeaponSkill(weapon);
-			int32_t attackSkill = player->getAttackSkill(weapon);
-			uint8_t skillId = player->getWeaponSkillId(weapon);
-			const auto attackRawTotal = player->attackRawTotal(flatBonus, weaponAttack, weaponSkill);
-			const auto attackTotal = player->attackTotal(flatBonus, weaponAttack, weaponSkill);
+	        const auto distanceAccuracy = player->getDamageAccuracy(it);
+	        const auto distanceAccuracySize = distanceAccuracy.size();
+	        msg.addByte(distanceAccuracy.size());
+	        for (uint8_t i = 0; i < distanceAccuracySize; ++i) {
+	            msg.addByte(i + 1);
+	            msg.addDouble(distanceAccuracy[i] / 100.);
+	        }
+	    } else {
+	        int32_t physicalAttack = std::max<int32_t>(0, weapon->getAttack());
+	        int32_t elementalAttack = 0;
+	        if (it.abilities && it.abilities->elementType != COMBAT_NONE) {
+	            elementalAttack = std::max<int32_t>(0, it.abilities->elementDamage);
+	        }
+	        int32_t weaponAttack = physicalAttack + elementalAttack;
+	        int32_t weaponSkill = player->getWeaponSkill(weapon);
+	        int32_t attackSkill = player->getAttackSkill(weapon);
+	        uint8_t skillId = player->getWeaponSkillId(weapon);
+	        const auto attackRawTotal = player->attackRawTotal(flatBonus, weaponAttack, weaponSkill);
+	        const auto attackTotal = player->attackTotal(flatBonus, weaponAttack, weaponSkill);
 
-			msg.add<uint16_t>(attackTotal);
-			msg.add<uint16_t>(flatBonus);
-			msg.add<uint16_t>(static_cast<uint16_t>(weaponAttack));
-			msg.addByte(skillId);
-			msg.add<uint16_t>(attackSkill);
-			msg.add<uint16_t>(attackTotal - attackRawTotal);
-			msg.addByte(CIPBIA_ELEMENTAL_PHYSICAL);
+	        msg.add<uint16_t>(attackTotal);
+	        msg.add<uint16_t>(flatBonus);
+	        msg.add<uint16_t>(static_cast<uint16_t>(weaponAttack));
+	        msg.addByte(skillId);
+	        msg.add<uint16_t>(attackSkill);
+	        msg.add<uint16_t>(attackTotal - attackRawTotal);
+	        msg.addByte(CIPBIA_ELEMENTAL_PHYSICAL);
 
-			// Converted Damage
-			if (it.abilities && it.abilities->elementType != COMBAT_NONE) {
-				if (physicalAttack) {
-					msg.addDouble(elementalAttack / static_cast<double>(weaponAttack));
-				} else {
-					msg.addDouble(0);
-				}
-				msg.addByte(getCipbiaElement(it.abilities->elementType));
-			} else {
-				handleImbuementDamage(msg, player);
-			}
-			msg.addByte(0x00);
-		}
+	        // Converted Damage
+	        if (it.abilities && it.abilities->elementType != COMBAT_NONE) {
+	            if (physicalAttack) {
+	                msg.addDouble(elementalAttack / static_cast<double>(weaponAttack));
+	            } else {
+	                msg.addDouble(0);
+	            }
+	            msg.addByte(getCipbiaElement(it.abilities->elementType));
+	        } else {
+	            handleImbuementDamage(msg, player);
+	        }
+	        msg.addByte(0x00);
+	    }
 	} else {
-		uint16_t attackValue = 7;
-		int32_t fistValue = player->getSkillLevel(SKILL_FIST);
-		int32_t attackSkill = player->getDistanceAttackSkill(fistValue, attackValue);
-		const auto attackRawTotal = player->attackRawTotal(flatBonus, attackValue, fistValue);
-		const auto attackTotal = player->attackTotal(flatBonus, attackValue, fistValue);
+	    uint16_t attackValue = 7;
+	    int32_t fistValue = player->getSkillLevel(SKILL_FIST);
+	    int32_t attackSkill = player->getDistanceAttackSkill(fistValue, attackValue);
+	    const auto attackRawTotal = player->attackRawTotal(flatBonus, attackValue, fistValue);
+	    const auto attackTotal = player->attackTotal(flatBonus, attackValue, fistValue);
 
-		msg.add<uint16_t>(attackTotal);
-		msg.add<uint16_t>(flatBonus);
-		msg.add<uint16_t>(attackValue);
-		msg.addByte(11);
-		msg.add<uint16_t>(attackSkill);
-		msg.add<uint16_t>(attackTotal - attackRawTotal);
-		msg.addByte(CIPBIA_ELEMENTAL_PHYSICAL);
+	    msg.add<uint16_t>(attackTotal);
+	    msg.add<uint16_t>(flatBonus);
+	    msg.add<uint16_t>(attackValue);
+	    msg.addByte(11);
+	    msg.add<uint16_t>(attackSkill);
+	    msg.add<uint16_t>(attackTotal - attackRawTotal);
+	    msg.addByte(CIPBIA_ELEMENTAL_PHYSICAL);
 
-		msg.addDouble(0.0);
-		msg.addByte(0x00);
+	    msg.addDouble(0.0);
+	    msg.addByte(0x00);
 
-		msg.addByte(0x00); // distanceAccuracySize
+	    msg.addByte(0x00); // distanceAccuracySize
 	}
 
 	msg.addDouble(0x00);
@@ -5677,7 +5676,7 @@ void ProtocolGame::sendNpcChatWindow() {
 	}
 
 	// yes / no / bye are always at the front
-	std::vector<KeywordButtonIcon> buttonList = {KEYWORDBUTTONICON_YES, KEYWORDBUTTONICON_NO, KEYWORDBUTTONICON_BYE};
+	std::vector<KeywordButtonIcon> buttonList = { KEYWORDBUTTONICON_YES, KEYWORDBUTTONICON_NO, KEYWORDBUTTONICON_BYE };
 
 	// the buttons in the game screen follow specific order
 
@@ -5696,7 +5695,7 @@ void ProtocolGame::sendNpcChatWindow() {
 
 	// add buttons to the packet
 	msg.addByte(buttonList.size());
-	for (const auto& buttonId : buttonList) {
+	for (const auto &buttonId : buttonList) {
 		AddNpcButton(msg, static_cast<KeywordButtonIcon>(buttonId));
 	}
 
@@ -8391,7 +8390,7 @@ void ProtocolGame::sendFullVipList() {
 			vipStatus = VipStatus_t::OFFLINE;
 		} else {
 			VipStatus_t status = player->isExerciseTraining() ? VipStatus_t::TRAINING : VipStatus_t::ONLINE;
-			vipStatus = status;//original erindor check
+			vipStatus = status; // original erindor check
 		}
 
 		sendVIP(entry.guid, entry.name, entry.description, entry.icon, entry.notify, vipStatus);
@@ -10526,10 +10525,10 @@ void ProtocolGame::sendDisableLoginMusic() {
 }
 
 void ProtocolGame::sendClientEvent(ClientEvent_t eventType) {
-// before 15.20 this was a screenshot packet
-// in ~15.20 this packet got two functions
-// 1. notification popup in client
-// 2. triggering a screenshot
+	// before 15.20 this was a screenshot packet
+	// in ~15.20 this packet got two functions
+	// 1. notification popup in client
+	// 2. triggering a screenshot
 	if (eventType == CLIENT_EVENT_NONE || oldProtocol) {
 		return;
 	}
@@ -10541,9 +10540,9 @@ void ProtocolGame::sendClientEvent(ClientEvent_t eventType) {
 	writeToOutputBuffer(msg);
 }
 
-void ProtocolGame::sendUnlockedAchievement(const std::string& achievement) {
+void ProtocolGame::sendUnlockedAchievement(const std::string &achievement) {
 	if (oldProtocol) {
-			return;
+		return;
 	}
 
 	NetworkMessage msg;
@@ -10555,7 +10554,7 @@ void ProtocolGame::sendUnlockedAchievement(const std::string& achievement) {
 
 void ProtocolGame::sendUnlockedTitle(const std::string &title) {
 	if (oldProtocol) {
-			return;
+		return;
 	}
 
 	NetworkMessage msg;
@@ -10567,7 +10566,7 @@ void ProtocolGame::sendUnlockedTitle(const std::string &title) {
 
 void ProtocolGame::sendUnlockedSkin(const std::string &skinName, uint16_t lookType, uint8_t skinType) {
 	if (oldProtocol) {
-			return;
+		return;
 	}
 
 	NetworkMessage msg;
@@ -10581,7 +10580,7 @@ void ProtocolGame::sendUnlockedSkin(const std::string &skinName, uint16_t lookTy
 
 void ProtocolGame::sendSkillAdvance(skills_t skill, uint16_t newLevel) {
 	if (oldProtocol) {
-			return;
+		return;
 	}
 
 	NetworkMessage msg;
@@ -10629,7 +10628,7 @@ void ProtocolGame::sendSkillAdvance(skills_t skill, uint16_t newLevel) {
 
 void ProtocolGame::sendProgressRace(uint16_t raceId, uint8_t progressLevel, bool isBoss) {
 	if (oldProtocol) {
-			return;
+		return;
 	}
 
 	NetworkMessage msg;
@@ -10642,7 +10641,7 @@ void ProtocolGame::sendProgressRace(uint16_t raceId, uint8_t progressLevel, bool
 
 void ProtocolGame::sendProgressQuest(const std::string &questName, bool isCompleted) {
 	if (oldProtocol) {
-			return;
+		return;
 	}
 
 	NetworkMessage msg;
@@ -10655,7 +10654,7 @@ void ProtocolGame::sendProgressQuest(const std::string &questName, bool isComple
 
 void ProtocolGame::sendProficiencyProgress(uint16_t itemId, const std::string &message) {
 	if (oldProtocol) {
-			return;
+		return;
 	}
 
 	NetworkMessage msg;
@@ -11067,7 +11066,7 @@ void ProtocolGame::sendMonkState(MonkData_t type, uint8_t value) {
 	NetworkMessage msg;
 	msg.addByte(0xC1);
 
-	msg.addByte(enumToValue(type));	// mechanic to update (harmony, virtue, serenity)
+	msg.addByte(enumToValue(type)); // mechanic to update (harmony, virtue, serenity)
 	msg.addByte(value); // current state of the mechanic
 
 	writeToOutputBuffer(msg);

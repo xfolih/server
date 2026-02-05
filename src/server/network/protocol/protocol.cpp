@@ -38,14 +38,14 @@ void Protocol::onSendMessage(const OutputMessage_ptr &msg) {
 
 		// Log message length before padding/encryption for debugging
 		size_t lengthBeforePadding = msg->getLength();
-		
+
 		msg->writePaddingAmount();
 
 		XTEA_encrypt(*msg);
-		
+
 		// Log message length after encryption for debugging
 		size_t lengthAfterEncryption = msg->getLength();
-		
+
 		if (checksumMethod == CHECKSUM_METHOD_NONE) {
 			msg->addCryptoHeader(false, 0);
 		} else if (checksumMethod == CHECKSUM_METHOD_ADLER32) {
@@ -56,14 +56,13 @@ void Protocol::onSendMessage(const OutputMessage_ptr &msg) {
 				serverSequenceNumber = 0;
 			}
 		}
-		
+
 		// Log final message length for debugging packet corruption
 		size_t finalLength = msg->getLength();
 		if (lengthBeforePadding > 1000 || finalLength > 1000) {
-			g_logger().info("[Protocol::onSendMessage] Large message: beforePadding={}, afterEncryption={}, finalLength={}, checksumMethod={}", 
-				lengthBeforePadding, lengthAfterEncryption, finalLength, checksumMethod);
+			g_logger().info("[Protocol::onSendMessage] Large message: beforePadding={}, afterEncryption={}, finalLength={}, checksumMethod={}", lengthBeforePadding, lengthAfterEncryption, finalLength, checksumMethod);
 		}
-		
+
 		// DETAILED BYTE LOGGING for first few packets after login
 		thread_local static int packetCount = 0;
 		if (packetCount < 5 || finalLength > 1000) {
@@ -121,7 +120,7 @@ bool Protocol::onRecvMessage(NetworkMessage &msg) {
 		g_logger().info("[Protocol::onRecvMessage] Received packet #{}: length={}, bytes: {}", recvPacketCount, length, hexDump);
 		recvPacketCount++;
 	}
-	
+
 	if (checksumMethod != CHECKSUM_METHOD_NONE) {
 		const auto recvChecksum = msg.get<uint32_t>();
 		if (checksumMethod == CHECKSUM_METHOD_SEQUENCE) {
